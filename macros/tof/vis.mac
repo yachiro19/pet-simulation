@@ -1,0 +1,29 @@
+# Режим tof: визуализация установки (интерактивный запуск без аргументов)
+#   PET_simulation.exe -m tof
+# Оптические фотоны не рисуются — их тысячи на событие
+
+/control/execute tof/config_default.mac
+/run/initialize
+
+/vis/open OGL 900x700-0+0
+/vis/viewer/set/autoRefresh false
+/vis/verbose errors
+/vis/drawVolume
+/vis/viewer/set/viewpointThetaPhi 70 20 deg
+/vis/viewer/set/style surface
+/vis/viewer/set/background white
+/vis/scene/add/axes 0 0 0 20 mm
+
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/drawByParticleID-0/set gamma blue
+/vis/modeling/trajectories/drawByParticleID-0/set e- red
+/vis/modeling/trajectories/drawByParticleID-0/set e+ green
+/vis/filtering/trajectories/create/particleFilter
+/vis/filtering/trajectories/particleFilter-0/add opticalphoton
+/vis/filtering/trajectories/particleFilter-0/invert true
+/vis/scene/endOfEventAction accumulate 20
+/vis/viewer/set/autoRefresh true
+/vis/verbose warnings
+
+/run/beamOn 5
