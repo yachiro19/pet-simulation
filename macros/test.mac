@@ -1,0 +1,5 @@
+# Быстрая проверка сборки — несколько событий без визуализации
+/run/initialize
+
+/run/printProgress 20
+/run/beamOn 100

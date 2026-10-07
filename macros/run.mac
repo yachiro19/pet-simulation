@@ -1,0 +1,36 @@
+# PET Simulation Macro File
+
+# Однопоточный режим — обязательно ДО initialize
+/run/numberOfThreads 1
+
+# Инициализация
+/run/initialize
+
+# Визуализация
+/vis/open OGL 800x600-0+0
+/vis/viewer/set/viewpointThetaPhi 90 0
+/vis/viewer/zoom 1.5
+/vis/viewer/set/style wireframe
+#/vis/viewer/set/style surface
+/vis/viewer/set/background white
+/vis/drawVolume
+/vis/viewer/set/autoRefresh true
+
+# Оси координат
+/vis/scene/add/axes 0 0 0 50 mm
+
+# Треки
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/drawByParticleID-0/set e+     red
+/vis/modeling/trajectories/drawByParticleID-0/set gamma  blue
+/vis/modeling/trajectories/drawByParticleID-0/set e-     green
+/vis/scene/endOfEventAction accumulate 100
+
+# EM физика (флуоресценция и оже-электроны)
+/process/em/fluo  true
+/process/em/auger true
+
+# Прогресс и запуск
+/run/printProgress 50
+/run/beamOn 50

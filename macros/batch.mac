@@ -1,0 +1,5 @@
+# Пакетный режим — только сбор данных, без визуализации
+/run/initialize
+
+/run/printProgress 1000
+/run/beamOn 50000
