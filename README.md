@@ -114,9 +114,3 @@ python3 ../analysis/analyse.py
 ## История разработки
 
 Все изменения проекта описаны в [docs/changelog/](docs/changelog/README.md): что сделано, зачем, как и что получилось. Каждое описание коммитится вместе с соответствующим кодом.
-
-## Возможные проблемы
-
-- **Windows: программа сразу завершается без вывода (код `0xC0E90002`).** Неподписанные DLL Geant4 блокирует Smart App Control или другая политика Application Control. Проверить можно в журнале «Просмотр событий → Microsoft → Windows → CodeIntegrity → Operational». Решение: отключить Smart App Control (Безопасность Windows → Управление приложениями/браузером) или собирать и запускать проект в WSL/Linux.
-- **`Could not find a package configuration file provided by "Geant4"`**: укажите `-DGeant4_DIR=<установка>/lib/cmake/Geant4`.
-- **Ошибки об отсутствии наборов данных (`G4ENSDFSTATEDATA` и т. п.)**: Geant4 собран без данных. Пересоберите его с `GEANT4_INSTALL_DATA=ON` или задайте переменные окружения (на Linux это делает `geant4.sh`).
