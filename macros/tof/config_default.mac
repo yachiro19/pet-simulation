@@ -20,3 +20,19 @@
 /tof/source/z 0 mm              # положение вдоль оси модулей
 /tof/gun/type gammaPair         # gammaPair | positron
 /tof/gun/coneAngle 0 deg        # <= 0: автоматически, конус накрывает модули
+
+# --- SiPM ---
+/tof/sipm/pdeModel nuvhd        # nuvhd (спектральная кривая) | flat
+/tof/sipm/pdeScale 1.0          # множитель к кривой PDE
+/tof/sipm/sptr 70 ps            # разброс времени одного фотона, FWHM
+
+# --- Трекинг и вывод ---
+/tof/opt/timeCut 5 ns           # фотоны, рождённые позже, не отслеживаются (0 = все)
+/tof/output/dir tof_output      # каталог для CSV
+/tof/output/nFirst 10           # сколько первых времён фотонов записывать
+/tof/output/autoSeed true       # зерно генератора из конфигурации (воспроизводимо)
+/run/printProgress 2000
+
+# Число событий на одну точку скана. 20000 событий дают ~1500 совпадений
+# "1 кристалл + 1 кристалл"; время счёта — см. README (LYSO ~11 мин на точку)
+/control/alias nev 20000

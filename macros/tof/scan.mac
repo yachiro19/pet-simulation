@@ -1,0 +1,11 @@
+# Скан положения источника (-3..+3 мм, шаг 1 мм) для одной конфигурации
+#   PET_simulation.exe -m tof tof/scan.mac
+# Конфигурацию можно поменять ниже, после config_default.mac, например:
+#   /tof/det/material BGO
+#   /tof/det/shape trd
+#   /control/alias nev 5000
+
+/control/execute tof/config_default.mac
+
+/run/initialize
+/control/execute tof/scan_positions.mac
