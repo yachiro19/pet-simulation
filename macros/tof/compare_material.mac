@@ -1,0 +1,3 @@
+# Вызывается из compare.mac для каждого материала {mat}
+/tof/det/material {mat}
+/control/foreach tof/compare_shape.mac shape "box trd"

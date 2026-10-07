@@ -1,0 +1,10 @@
+# Полное сравнение: материал x форма x положение источника в одном процессе
+#   PET_simulation.exe -m tof tof/compare.mac
+# 3 материала x 2 формы x 7 положений = 42 прогона. Последовательно это долго
+# (см. README); быстрее запускать конфигурации параллельно:
+#   python scripts/run_tof_campaign.py
+
+/control/execute tof/config_default.mac
+
+/run/initialize
+/control/foreach tof/compare_material.mac mat "LYSO BGO PbF2"

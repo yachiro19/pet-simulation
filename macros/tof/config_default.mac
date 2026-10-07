@@ -1,0 +1,38 @@
+# Режим tof: параметры по умолчанию (подключается остальными макросами)
+# Значения ниже совпадают со значениями в коде; меняйте их здесь или после
+# подключения этого файла в своём макросе.
+
+# --- Геометрия ---
+/tof/det/material LYSO          # LYSO | BGO | PbF2
+/tof/det/shape box              # box | trd
+/tof/det/taper 0.5              # trd: отношение узкого торца к широкому
+/tof/det/narrowEnd sipm         # trd: узкий торец со стороны sipm | source
+/tof/det/moduleSize 6.1 mm      # сторона торца модуля: 2 кристалла 3 мм + зазор
+/tof/det/gap 0.1 mm             # зазор между кристаллами модуля
+/tof/det/length 20 mm           # длина кристалла
+/tof/det/distance 100 mm        # расстояние между торцами модулей
+/tof/det/wrapping esr           # esr | teflon | mirror | black | none
+/tof/det/reflectivity 0.98      # отражение обёртки (esr, teflon)
+/tof/det/windowIndex 1.5        # показатель преломления оптического окна SiPM
+
+# --- Источник ---
+/tof/source/size 1 mm           # куб 1 мм3
+/tof/source/z 0 mm              # положение вдоль оси модулей
+/tof/gun/type gammaPair         # gammaPair | positron
+/tof/gun/coneAngle 0 deg        # <= 0: автоматически, конус накрывает модули
+
+# --- SiPM ---
+/tof/sipm/pdeModel nuvhd        # nuvhd (спектральная кривая) | flat
+/tof/sipm/pdeScale 1.0          # множитель к кривой PDE
+/tof/sipm/sptr 70 ps            # разброс времени одного фотона, FWHM
+
+# --- Трекинг и вывод ---
+/tof/opt/timeCut 5 ns           # фотоны, рождённые позже, не отслеживаются (0 = все)
+/tof/output/dir tof_output      # каталог для CSV
+/tof/output/nFirst 10           # сколько первых времён фотонов записывать
+/tof/output/autoSeed true       # зерно генератора из конфигурации (воспроизводимо)
+/run/printProgress 2000
+
+# Число событий на одну точку скана. 20000 событий дают ~1500 совпадений
+# "1 кристалл + 1 кристалл"; время счёта — см. README (LYSO ~11 мин на точку)
+/control/alias nev 20000

@@ -1,0 +1,4 @@
+# Один прогон при положении источника {zpos} мм и числе событий {nev}
+# (вызывается из scan_positions.mac через /control/loop)
+/tof/source/z {zpos} mm
+/run/beamOn {nev}

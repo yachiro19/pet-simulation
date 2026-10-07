@@ -26,6 +26,8 @@ CMakeUserPresets.json
 .idea/
 
 # Результаты симуляции и анализа
+results/
+tof_output/
 *.csv
 pet_results.png
 *.root

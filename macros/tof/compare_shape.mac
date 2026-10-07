@@ -1,0 +1,3 @@
+# Вызывается из compare_material.mac для каждой формы {shape}
+/tof/det/shape {shape}
+/control/execute tof/scan_positions.mac
