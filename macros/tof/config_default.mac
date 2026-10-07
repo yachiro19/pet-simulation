@@ -11,7 +11,7 @@
 /tof/det/gap 0.1 mm             # зазор между кристаллами модуля
 /tof/det/length 20 mm           # длина кристалла
 /tof/det/distance 100 mm        # расстояние между торцами модулей
-/tof/det/wrapping esr           # esr | teflon | black | none
+/tof/det/wrapping esr           # esr | teflon | mirror | black | none
 /tof/det/reflectivity 0.98      # отражение обёртки (esr, teflon)
 /tof/det/windowIndex 1.5        # показатель преломления оптического окна SiPM
 

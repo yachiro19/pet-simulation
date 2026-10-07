@@ -153,6 +153,8 @@ G4VPhysicalVolume* TofDetectorConstruction::Construct()
 //            сначала френелевское отражение/ПВО на грани кристалла, затем отражатель
 //   teflon — диффузный (ламбертовский) отражатель через воздушный зазор (groundbackpainted)
 //   black  — поглощающая краска прямо на грани (polishedfrontpainted, R = 0)
+//   mirror — идеальное зеркало прямо на грани (dielectric_metal): без ПВО, каждое
+//            отражение с вероятностью R; эталон для проверки модели
 //   none   — голый кристалл в воздухе
 // ------------------------------------------------------------
 G4OpticalSurface* TofDetectorConstruction::MakeWrappingSurface() const
@@ -165,7 +167,12 @@ G4OpticalSurface* TofDetectorConstruction::MakeWrappingSurface() const
     surface->SetType(dielectric_dielectric);
 
     G4double reflectivity = fReflectivity;
-    if (fWrapping == "esr")
+    if (fWrapping == "mirror")
+    {
+        surface->SetType(dielectric_metal);
+        surface->SetFinish(polished);
+    }
+    else if (fWrapping == "esr")
         surface->SetFinish(polishedbackpainted);
     else if (fWrapping == "teflon")
         surface->SetFinish(groundbackpainted);
@@ -181,6 +188,14 @@ G4OpticalSurface* TofDetectorConstruction::MakeWrappingSurface() const
     mpt->AddProperty("REFLECTIVITY", energy, std::vector<G4double>{reflectivity, reflectivity});
     // Показатель преломления зазора между кристаллом и отражателем (воздух)
     mpt->AddProperty("RINDEX", energy, std::vector<G4double>{1.0, 1.0});
+    // Грань кристалла полированная: френелевское и полное внутреннее отражение на ней
+    // зеркальные. Без этих констант модель unified при отделке *backpainted выбирает
+    // тип отражения с нулевыми вероятностями и делает любое такое отражение
+    // ламбертовским (G4OpBoundaryProcess::ChooseReflection) — кристалл вёл бы себя
+    // как матовый. Диффузность тефлона задаётся отдельно, на отражении от «краски».
+    mpt->AddProperty("SPECULARSPIKECONSTANT", energy, std::vector<G4double>{1.0, 1.0});
+    mpt->AddProperty("SPECULARLOBECONSTANT", energy, std::vector<G4double>{0.0, 0.0});
+    mpt->AddProperty("BACKSCATTERCONSTANT", energy, std::vector<G4double>{0.0, 0.0});
     surface->SetMaterialPropertiesTable(mpt);
     return surface;
 }
@@ -216,7 +231,7 @@ void TofDetectorConstruction::DefineCommands()
         .SetCandidates("sipm source");
     fDetMessenger->DeclareMethod("wrapping", &TofDetectorConstruction::SetWrapping,
                                  "Crystal wrapping")
-        .SetCandidates("esr teflon black none");
+        .SetCandidates("esr teflon black none mirror");
     fDetMessenger->DeclareMethodWithUnit("moduleSize", "mm", &TofDetectorConstruction::SetModuleSize,
                                          "Side of the square module face (2x2 crystals + gap)");
     fDetMessenger->DeclareMethodWithUnit("gap", "mm", &TofDetectorConstruction::SetGap,
